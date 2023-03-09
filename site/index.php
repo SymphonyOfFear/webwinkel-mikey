@@ -68,9 +68,6 @@
 
         </div>
     </main>
-</body>
-
-<body>
     <footer class="footer">
         <div class="container-footer">
             <div class="rij">
