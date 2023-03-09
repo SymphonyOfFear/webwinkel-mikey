@@ -362,7 +362,7 @@ margin: 0 20px;
       transition: all 300ms linear;
       transition-delay: 1700ms;
   }
- header body.hero-anime p{
+ header body.body-header p{
     opacity: 0;
     transform: translateY(40px);
       transition-delay: 1700ms;
@@ -373,43 +373,43 @@ margin: 0 20px;
     opacity: 1;
     transform: translate(0);
   }
- header body.hero-anime h1 span:nth-child(1){
+ header body.body-header h1 span:nth-child(1){
     opacity: 0;
     transform: translateY(-20px);
   }
- header body.hero-anime h1 span:nth-child(2){
+ header body.body-header h1 span:nth-child(2){
     opacity: 0;
     transform: translateY(-30px);
   }
- header body.hero-anime h1 span:nth-child(3){
+ header body.body-header h1 span:nth-child(3){
     opacity: 0;
     transform: translateY(-50px);
   }
- header body.hero-anime h1 span:nth-child(4){
+ header body.body-header h1 span:nth-child(4){
     opacity: 0;
     transform: translateY(-10px);
   }
- header body.hero-anime h1 span:nth-child(5){
+ header body.body-header h1 span:nth-child(5){
     opacity: 0;
     transform: translateY(-50px);
   }
- header body.hero-anime h1 span:nth-child(6){
+ header body.body-header h1 span:nth-child(6){
     opacity: 0;
     transform: translateY(-20px);
   }
- header body.hero-anime h1 span:nth-child(7){
+ header body.body-header h1 span:nth-child(7){
     opacity: 0;
     transform: translateY(-40px);
   }
-  header body.hero-anime h1 span:nth-child(8){
+  header body.body-header h1 span:nth-child(8){
     opacity: 0;
     transform: translateY(-10px);
   }
- header body.hero-anime h1 span:nth-child(9){
+ header body.body-header h1 span:nth-child(9){
     opacity: 0;
     transform: translateY(-30px);
   }
- header body.hero-anime h1 span:nth-child(10){
+ header body.body-header h1 span:nth-child(10){
     opacity: 0;
     transform: translateY(-20px);
   }
@@ -443,23 +443,23 @@ margin: 0 20px;
   h1 span:nth-child(10){
       transition-delay: 700ms;
   }
- header body.hero-anime h1 span:nth-child(11){
+ header body.body-header h1 span:nth-child(11){
     opacity: 0;
     transform: translateY(30px);
   }
- header body.hero-anime h1 span:nth-child(12){
+ header body.body-header h1 span:nth-child(12){
     opacity: 0;
     transform: translateY(50px);
   }
- header body.hero-anime h1 span:nth-child(13){
+ header body.body-header h1 span:nth-child(13){
     opacity: 0;
     transform: translateY(20px);
   }
- header body.hero-anime h1 span:nth-child(14){
+ header body.body-header h1 span:nth-child(14){
     opacity: 0;
     transform: translateY(30px);
   }
- header body.hero-anime h1 span:nth-child(15){
+ header body.body-header h1 span:nth-child(15){
     opacity: 0;
     transform: translateY(50px);
   }
@@ -499,7 +499,7 @@ margin: 0 20px;
       transition: all 300ms linear;
       transition-delay: 1900ms;
   }
-  header body.hero-anime #switch{
+  header body.body-header #switch{
     opacity: 0;
     transform: translateY(40px);
       transition-delay: 1900ms;
