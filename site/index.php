@@ -1,8 +1,3 @@
-<?php
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,45 +10,87 @@
 </head>
 
 <body>
-<div>
-        <div class="header-blue">
-            <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
-                <div class="container-fluid"><a class="navbar-brand" href="#">BBBOOTSTAP</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse"
-                        id="navcol-1">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item" role="presentation"><a class="nav-link" href="#">Contact</a></li>
-                            <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Services</a>
-                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">Logo design</a><a class="dropdown-item" role="presentation" href="#">Banner design</a><a class="dropdown-item" role="presentation" href="#">content writing</a></div>
+    <header>
+        <div class="header2 bg-success-gradiant">
+            <div class="">
+                <!-- Header 1 code -->
+                <nav class="navbar navbar-expand-lg h2-nav">
+                    <a class="navbar-brand" href="#">BBB</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header2"
+                        aria-controls="header2" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-menu"></span>
+                    </button>
+                    <div class="collapse navbar-collapse hover-dropdown" id="header2">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+                            <li class="nav-item dropdown position-relative">
+                                <a class="nav-link dropdown-toggle" href="#" id="h2-dropdown" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Product <i class="fa fa-angle-down ml-1 font-12"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li class="divider" role="separator"></li>
+                                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                    <li class="divider" role="separator"></li>
+                                    <li><a class="dropdown-item" href="#">One more separated link</a></li>
+                                    <li class="dropdown-submenu position-relative"> <a
+                                            class="dropdown-toggle dropdown-item" data-toggle="dropdown"
+                                            href="#">Dropdown <i
+                                                class="fa fa-long-arrow-right float-right mt-1"></i></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li class="dropdown-submenu position-relative"> <a
+                                                    class="dropdown-toggle dropdown-item" href="#"
+                                                    data-toggle="dropdown">Dropdown <i
+                                                        class="fa fa-long-arrow-right float-right mt-1"></i></a>
+                                                <ul class="nav navbar-nav dropdown-menu">
+                                                    <li class="dropdown-submenu position-relative"> <a
+                                                            class="dropdown-toggle dropdown-item" href="#"
+                                                            data-toggle="dropdown">Dropdown <i
+                                                                class="fa fa-long-arrow-right float-right mt-1"></i></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Another action</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Something else
+                                                                    here</a></li>
+                                                            <li class="divider" role="separator"></li>
+                                                            <li><a class="dropdown-item" href="#">Separated link</a>
+                                                            </li>
+                                                            <li class="divider" role="separator"></li>
+                                                            <li><a class="dropdown-item" href="#">One more separated
+                                                                    link</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                        </ul>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active"><a class="nav-link" href="#"><i class="icon-bubble"></i> Need
+                                    help?</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="#">Login</a></li>
+                            <li class="nav-item"><a class="btn rounded-pill btn-dark py-2 px-4" href="#">Sign up</a>
                             </li>
                         </ul>
-                        <form class="form-inline mr-auto" target="_self">
-                            <div class="form-group"><label for="search-field"><i class="fa fa-search text-white"></i></label><input class="form-control search-field" type="search" id="search-field" name="search"></div>
-                        </form><span class="navbar-text"> <a class="login" href="#">Log In</a></span><a class="btn btn-light action-button" role="button" href="#">Signup</a></div>
-                </div>
-            </nav>
-            <div class="container hero">
-                <div class="row">
-                    <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
-                        <h1>Business goal designs</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br></p>
-                        <button
-                            class="btn btn-light btn-lg action-button" type="button">Learn More<i class="fa fa-long-arrow-right ml-2"></i></button>
                     </div>
-                    <div class="col-md-5 col-lg-5 offset-lg-1 offset-xl-0 d-none d-lg-block phone-holder">
-                        <div class="iphone-mockup">
-						<img class="device" src="https://i.imgur.com/bkCeTu7.png">
-                          <!--  <div class="screen">
-							</div>
-							
-							-->
-                        </div>
-                    </div>
-                </div>
+                </nav>
+                <!-- End Header 1 code -->
             </div>
         </div>
-    </div>
+    </header>
+    <!--
 
+    
     <main>
         <div class="main-container">
             <img src="laptop.png"></img>
@@ -68,6 +105,9 @@
 
         </div>
     </main>
+
+-->
+
     <footer class="footer">
         <div class="container-footer">
             <div class="rij">
