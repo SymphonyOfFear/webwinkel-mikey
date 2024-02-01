@@ -1,14 +1,28 @@
-var MenuItems = document.getElementById("MenuItems");
-
-MenuItems.style.maxHeight = "0px";
-
-function menutoggle()
-{
-    if(MenuItems.style.maxHeight == "0px")
-    {
-        MenuItems.style.maxHeight="200px";
+function toggleDropdown(dropdownClass) {
+    var dropdowns = document.getElementsByClassName(dropdownClass);
+    for (var i = 0; i < dropdowns.length; i++) {
+        var dropdown = dropdowns[i];
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+            dropdown.style.transform = "scaleY(0)";
+            dropdown.style.opacity = "0";
+        } else {
+            dropdown.style.display = "block";
+            dropdown.style.transform = "scaleY(1)";
+            dropdown.style.opacity = "1";
+        }
     }
-    else{
-        MenuItems.style.maxHeight = "0px";
+}
+
+function toggleCart() {
+    var cart = document.getElementById("cart-dropdown");
+    if (cart.style.display === "block") {
+        cart.style.display = "none";
+        cart.style.transform = "scaleY(0)";
+        cart.style.opacity = "0";
+    } else {
+        cart.style.display = "block";
+        cart.style.transform = "scaleY(1)";
+        cart.style.opacity = "1";
     }
 }
