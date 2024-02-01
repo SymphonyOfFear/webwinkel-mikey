@@ -20,7 +20,6 @@ $producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@200&family=Jost:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css">
 </head>
-
 <body>
     <header>
         <div class="container">
@@ -35,7 +34,7 @@ $producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
                         <li><a href="about.php">Over ons</a></li>
                         <li><a href="contact.php">Contact</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-btn">Account</a>
+                            <a href="javascript:void(0);" class="dropdown-btn" onclick="toggleDropdown('dropdown-content')">Account</a>
                             <div class="dropdown-content">
                                 <a href="inloggen.php">Inloggen</a>
                                 <a href="nieuwe-gebruiker.php">Registreren</a>
@@ -54,7 +53,7 @@ $producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 <a href="producten.php" class="btn">Nu ontdekken &#8594;</a>
             </div>
             <div class="col-2">
-                <img src="images/store-banner.png" alt="Winkelbanner">
+                <img src="images/banner.png" alt="Winkelbanner">
             </div>
         </div>
     </header>
@@ -69,7 +68,7 @@ $producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
                     <h4><?php echo htmlspecialchars($product['naam']); ?></h4>
                     <p>&euro; <?php echo htmlspecialchars($product['prijs']); ?></p>
                 </div>
-            <?php endforeach ?>
+            <?php endforeach; ?>
         </div>
     </div>
 
@@ -152,7 +151,7 @@ $producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
         </div>
     </footer>
     <div id="cart-dropdown" class="cart-dropdown">
-      
+        <!-- Voeg hier je winkelwageninhoud toe -->
     </div>
     <script src="js/script.js"></script>
 </body>

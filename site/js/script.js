@@ -26,3 +26,22 @@ function toggleCart() {
         cart.style.opacity = "1";
     }
 }
+// Dropdown
+function toggleDropdown(dropdownClass) {
+    var dropdownContent = document.querySelector('.' + dropdownClass);
+    if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+    } else {
+        dropdownContent.style.display = "block";
+    }
+}
+
+document.addEventListener('click', function(event) {
+    var isClickInsideDropdown = document.querySelector('.dropdown').contains(event.target);
+    if (!isClickInsideDropdown) {
+        var dropdowns = document.querySelectorAll('.dropdown-content');
+        dropdowns.forEach(function(dropdown) {
+            dropdown.style.display = 'none';
+        });
+    }
+});
