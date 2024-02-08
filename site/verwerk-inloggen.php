@@ -6,68 +6,68 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-if (!isset($_POST['email'])) {
-    // We controleren of de key email in de POST-array bestaat
+if (!isset($_POST['email']) || !isset($_POST['wachtwoord'])) {
+    // Controleer of zowel het e-mailadres als het wachtwoord zijn ingevuld
     header("location: inloggen.php");
     exit;
 }
 
-// daarna controleren of het emailadress is ingevuld (dus niet leeg)
-if (empty($_POST['email'])) {
-    header("location: inloggen.php");
-    exit;
+// Haal de ingevoerde waarden op
+$email_or_gebruikersnaam = $_POST['email'];
+$wachtwoord = $_POST['wachtwoord'];
+
+// Controleer of de ingevoerde waarde een e-mailadres is of een gebruikersnaam
+if (filter_var($email_or_gebruikersnaam, FILTER_VALIDATE_EMAIL)) {
+    // De ingevoerde waarde is een e-mailadres
+    $where_clause = "email = '$email_or_gebruikersnaam'";
+} else {
+    // De ingevoerde waarde is een gebruikersnaam
+    $where_clause = "gebruikersnaam = '$email_or_gebruikersnaam'";
 }
-
-// dan komt hier de rest van de code....
-
-// het eerste input field met een name attribuut `email`
-$email = $_POST['email'];
 
 // We hebben een database connectie nodig
 require 'database.php';
-// We gaan nu het emailadres dat is ingevuld vergelijken met de waardes in de database.
+// We gaan nu het e-mailadres of de gebruikersnaam die is ingevuld vergelijken met de waardes in de database.
 
-$sql = "SELECT * FROM Gebruikers WHERE email = '$email' ";
+$sql = "SELECT * FROM Gebruikers WHERE $where_clause";
 
 // dan voeren we de query uit
 $result = mysqli_query($conn, $sql);
 
 $user = mysqli_fetch_assoc($result);
 if (!is_array($user)) {
-
+    // Gebruiker niet gevonden, terugsturen naar inlogpagina
     header("location: inloggen.php");
-    echo "De gebruiker heeft het correcte email-adres ingevuld!";
+    exit;
 }
 
-
-if ($user['wachtwoord'] === $_POST['wachtwoord']) {
-
+// Controleer of het ingevoerde wachtwoord overeenkomt met het opgeslagen wachtwoord in de database
+if (password_verify($wachtwoord, $user['wachtwoord'])) {
+    // Wachtwoord is correct, start de sessie
     session_start();
     $_SESSION['isIngelogd'] = true;
-    $_SESSION['voornaam'] = $user['voornaam'];
-    $_SESSION['role'] = $user['role'];
+    $_SESSION['gebruikersnaam'] = $user['gebruikersnaam'];
+    $_SESSION['rol'] = $user['rol'];
 
-    switch ($user['role']) {
+    switch ($user['rol']) {
         case 'admin':
             header("location: admin-dashboard.php");
-            
-        break;
+            break;
         case 'medewerker':
             header("location: dashboard.php");
-           
             break;
         case 'klant':
             header("location: index.php");
-          
             break;
         default:
             header("location: index.php");
             break;
     }
     exit;
+} else {
+    // Wachtwoord is incorrect, terugsturen naar inlogpagina
+    header("location: inloggen.php");
+    exit;
 }
-
-header("location: dashboard.php");
-exit;
 
 ?>

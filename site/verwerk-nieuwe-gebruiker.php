@@ -14,8 +14,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit("Ongeldig e-mailformaat");
 }
 $wachtwoord = $_POST['wachtwoord']; // Overweeg een sterk wachtwoordbeleid te handhaven
-$voornaam = filter_var($_POST['voornaam']);
-$achternaam = filter_var($_POST['achternaam']);
+$gebruikersnaam = filter_var($_POST['gebruikersnaam']);
 $telefoonnummer = filter_var($_POST['telefoonnummer']);
 $adres = filter_var($_POST['adres']);
 $stad = filter_var($_POST['stad']);
@@ -24,8 +23,8 @@ $stad = filter_var($_POST['stad']);
 $gehasht_wachtwoord = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
 // SQL statement voorbereiden om SQL-injectie te voorkomen
-$stmt = $conn->prepare("INSERT INTO Gebruikers (email, wachtwoord, voornaam, achternaam, telefoonnummer, adres, stad) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("sssssss", $email, $gehasht_wachtwoord, $voornaam, $achternaam, $telefoonnummer, $adres, $stad);
+$stmt = $conn->prepare("INSERT INTO Gebruikers (email, wachtwoord, gebruikersnaam, telefoonnummer, adres, stad) VALUES (?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("sssssss", $email, $gehasht_wachtwoord, $gebruikersnaam, $telefoonnummer, $adres, $stad);
 
 // Het voorbereide statement uitvoeren
 if ($stmt->execute()) {
