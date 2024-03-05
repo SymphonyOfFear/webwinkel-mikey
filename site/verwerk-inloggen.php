@@ -1,73 +1,57 @@
 <?php
+session_start();
+include 'database.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed", true, 405);
-    include '405.php';
-    exit;
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    if (isset($_POST['email']) && isset($_POST['wachtwoord'])) {
+        if (!empty($_POST['email']) && !empty($_POST['wachtwoord'])) {
+            $emailForm = $_POST['email'];
+            $wachtwoordForm = $_POST['wachtwoord'];
 
-if (!isset($_POST['email']) || !isset($_POST['wachtwoord'])) {
-    // Controleer of zowel het e-mailadres als het wachtwoord zijn ingevuld
-    header("location: inloggen.php");
-    exit;
-}
+            try {
+                $stmt = $conn->prepare("SELECT * FROM Gebruikers WHERE email=:email");
+                $stmt->bindParam(':email', $emailForm);
+                $stmt->execute();
 
-// Haal de ingevoerde waarden op
-$email_or_gebruikersnaam = $_POST['email'];
-$wachtwoord = $_POST['wachtwoord'];
+                if ($stmt->rowCount() > 0) {
+                    $dbuser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Controleer of de ingevoerde waarde een e-mailadres is of een gebruikersnaam
-if (filter_var($email_or_gebruikersnaam, FILTER_VALIDATE_EMAIL)) {
-    // De ingevoerde waarde is een e-mailadres
-    $where_clause = "email = '$email_or_gebruikersnaam'";
-} else {
-    // De ingevoerde waarde is een gebruikersnaam
-    $where_clause = "gebruikersnaam = '$email_or_gebruikersnaam'";
-}
+                    if (password_verify($wachtwoordForm, $dbuser['wachtwoord'])) {
+                        $_SESSION['user_id'] = $dbuser['id'];
+                        $_SESSION['email'] = $dbuser['email'];
+                        $_SESSION['gebruikersnaam'] = $dbuser['gebruikersnaam'];
+                        $_SESSION['rol'] = $dbuser['rol'];
 
-// We hebben een database connectie nodig
-require 'database.php';
-// We gaan nu het e-mailadres of de gebruikersnaam die is ingevuld vergelijken met de waardes in de database.
-
-$sql = "SELECT * FROM Gebruikers WHERE $where_clause";
-
-// dan voeren we de query uit
-$result = mysqli_query($conn, $sql);
-
-$user = mysqli_fetch_assoc($result);
-if (!is_array($user)) {
-    // Gebruiker niet gevonden, terugsturen naar inlogpagina
-    header("location: inloggen.php");
-    exit;
-}
-
-// Controleer of het ingevoerde wachtwoord overeenkomt met het opgeslagen wachtwoord in de database
-if (password_verify($wachtwoord, $user['wachtwoord'])) {
-    // Wachtwoord is correct, start de sessie
-    session_start();
-    $_SESSION['isIngelogd'] = true;
-    $_SESSION['gebruikersnaam'] = $user['gebruikersnaam'];
-    $_SESSION['rol'] = $user['rol'];
-
-    switch ($user['rol']) {
-        case 'admin':
-            header("location: admin-dashboard.php");
-            break;
-        case 'medewerker':
-            header("location: dashboard.php");
-            break;
-        case 'klant':
-            header("location: index.php");
-            break;
-        default:
-            header("location: index.php");
-            break;
+                        switch ($dbuser['rol']) {
+                            case 'admin':
+                                header("Location: admin-dashboard.php"); // Na het instellen van andere sessievariabelen
+                                $_SESSION['isIngelogd'] = true;
+                                exit;
+                            case 'medewerker':
+                                $_SESSION['isIngelogd'] = true;
+                                header("Location: dashboard.php");
+                                exit;
+                            case 'klant':
+                                $_SESSION['isIngelogd'] = true;
+                                header("Location: index.php");
+                                exit;
+                        }
+                    } else {
+                        $_SESSION['message'] = 'Het opgegeven wachtwoord is onjuist.';
+                    }
+                } else {
+                    $_SESSION['message'] = 'Geen gebruiker gevonden met het opgegeven e-mailadres.';
+                }
+            } catch (PDOException $e) {
+                $_SESSION['message'] = 'Er is een fout opgetreden bij het uitvoeren van de databasequery.';
+                // Optioneel: log de fout naar een bestand voor verdere analyse
+                error_log("Databasefout: " . $e->getMessage(), 0);
+            }
+        } else {
+            $_SESSION['message'] = 'E-mailadres en wachtwoord zijn verplichte velden.';
+        }
     }
-    exit;
-} else {
-    // Wachtwoord is incorrect, terugsturen naar inlogpagina
-    header("location: inloggen.php");
-    exit;
 }
 
-?>
+header("Location: login.php");
+exit;

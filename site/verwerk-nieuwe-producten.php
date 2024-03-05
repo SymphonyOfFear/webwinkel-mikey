@@ -8,25 +8,16 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     exit;
 }
 
+// Validate and sanitize input data
+$naam = isset($_POST['naam']) ? htmlspecialchars($_POST['naam']) : '';
+$beschrijving = isset($_POST['beschrijving']) ? htmlspecialchars($_POST['beschrijving']) : '';
+$prijs = isset($_POST['prijs']) ? floatval($_POST['prijs']) : 0.0;
+$foto = isset($_POST['foto']) ? htmlspecialchars($_POST['foto']) : '';
 
-$naam = filter_var($_POST['naam'], FILTER_SANITIZE_STRING);
-$beschrijving = filter_var($_POST['beschrijving'], FILTER_SANITIZE_STRING);
-$prijs = filter_var($_POST['prijs'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-$foto = filter_var($_POST['foto'], FILTER_SANITIZE_URL);
-
-
+// Prepare and execute the SQL statement
 $stmt = $conn->prepare("INSERT INTO Producten (naam, beschrijving, prijs, foto) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("sssd", $naam, $beschrijving, $prijs, $foto);
+$stmt->execute([$naam, $beschrijving, $prijs, $foto]);
 
-
-if ($stmt->execute()) {
-    
-    header("Location: producten.php");
-    exit;
-} else {
-  
-    echo "Fout bij het uitvoeren: " . $stmt->error;
-}
-
-$stmt->close();
-$conn->close();
+// Redirect after execution
+header("Location: producten.php");
+exit;

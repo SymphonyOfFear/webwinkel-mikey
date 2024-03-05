@@ -1,8 +1,12 @@
 <?php
-
 session_start();
 
-unset($_SESSION());
+$_SESSION['isIngelogd'] = false;
+session_unset();
+
+// Vernietig de sessie
 session_destroy();
 
-header("location: inloggen.php");
+// Doorverwijzen naar de inlogpagina of een andere gewenste pagina
+header("Location: inloggen.php");
+exit;

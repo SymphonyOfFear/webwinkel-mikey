@@ -1,80 +1,99 @@
 <?php
+session_start(); // Start de sessie
 require 'database.php';
 
-$sql = "SELECT * FROM Producten";
-$result = mysqli_query($conn, $sql);
+$stmt = $conn->prepare("SELECT * FROM Producten");
+$stmt->execute();
 
-$producten = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$producten = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producten</title>
+    <title>Enigma Interactive</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- Include other CSS stylesheets for your page -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@200&family=Jost:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Include your header content here -->
     <header>
         <div class="container">
             <div class="navbar">
                 <div class="logo">
-                    <img src="images/logo.png" alt="Logo"> 
+                    <img src="images/logo.png" alt="Enigma Interactive Logo">
                 </div>
                 <nav>
                     <ul id="MenuItems">
                         <li><a href="index.php">Home</a></li>
                         <li><a href="producten.php">Producten</a></li>
-                        <li><a href="about.php">Over ons</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                        <li class="dropdown">Account
-                            <ul class="dropdown_menu">
-                                <li><a href="inloggen.php">Inloggen</a></li>
-                                <li><a href="nieuwe-gebruiker.php">Registreren</a></li>
-                            </ul>
+                        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') : ?>
+                            <li><a href="admin-dashboard.php">Admin Dashboard</a></li>
+                        <?php elseif (isset($_SESSION['rol']) && $_SESSION['rol'] === 'medewerker') : ?>
+                            <li><a href="dashboard.php">Medewerker Dashboard</a></li>
+                        <?php endif; ?>
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-btn">Account</a>
+                            <div class="dropdown-content">
+                                <?php if (isset($_SESSION['user_id'])) : ?>
+                                    <a href="#">Instellingen</a>
+                                    <a href="logout.php">Uitloggen</a>
+                                <?php else : ?>
+                                    <a href="inloggen.php">Inloggen</a>
+                                    <a href="registreren.php">Registreren</a>
+                                <?php endif; ?>
+                            </div>
                         </li>
                     </ul>
                 </nav>
-                <img src="images/shopping-cart.png" width="30px" height="30px" alt="Shopping Cart">
-                <img src="images/menu.png" class="menu-icon" onclick="menutoggle()" alt="Menu Icon"> 
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">
-                <h1>Welcome to Our Store</h1>
-                <p>Discover our latest products and trends.</p>
-                <a href="producten.php" class="btn">Explore Now &#8594;</a>
-            </div>
-            <div class="col-2">
-                <img src="images/store-banner.png" alt="Store Banner">
             </div>
         </div>
     </header>
-    
-    <!-- Featured Products -->
     <div class="small-container">
-        <h2 class="title">Aangeboden Producten</h2>
+        <h2 class="title">Producten</h2>
         <div class="row">
             <?php foreach ($producten as $product) : ?>
                 <div class="col-4">
                     <div class="product">
-                        <img src="images/<?php echo htmlspecialchars($product['imgNaam']); ?>" alt="<?php echo htmlspecialchars($product['naam']); ?>">
+                        <img src="<?php echo isset($product['foto']) ? $product['foto'] : 'https://placehold.co/200' ?>" alt="<?php echo $product['naam'] ?>">
+
                         <h4><?php echo htmlspecialchars($product['naam']); ?></h4>
                         <p>&euro; <?php echo htmlspecialchars($product['prijs']); ?></p>
-                        <!-- Add a button or link for more details or purchasing -->
                     </div>
                 </div>
             <?php endforeach ?>
         </div>
     </div>
 
-    <!-- Include other sections like Offer Section, Testimonials, Brands, and Footer as needed -->
-
-    <script src="js/script.js"></script>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="footer-col">
+                    <img src="images/logo.png" alt="Enigma Interactive Logo">
+                    <p>Ons doel is om de beste kwaliteitsproducten te leveren met uitzonderlijke service.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Volg ons</h3>
+                    <ul class="social-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-bottom-text">
+                Alle rechten voorbehouden door &copy;Enigma Interactive 2024
+            </p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
 </body>
+
 </html>
