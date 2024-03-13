@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'database.php';
+include '../app/config/database.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     if (isset($_POST['email']) && isset($_POST['wachtwoord'])) {
@@ -24,16 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
                         switch ($dbuser['rol']) {
                             case 'admin':
-                                header("Location: admin-dashboard.php"); // Na het instellen van andere sessievariabelen
+                                header("Location: ../views/admin-dashboard.php"); // Na het instellen van andere sessievariabelen
                                 $_SESSION['isIngelogd'] = true;
                                 exit;
                             case 'medewerker':
                                 $_SESSION['isIngelogd'] = true;
-                                header("Location: dashboard.php");
+                                header("Location: ../views/dashboard.php");
                                 exit;
                             case 'klant':
                                 $_SESSION['isIngelogd'] = true;
-                                header("Location: index.php");
+                                header("Location: ../index.php");
                                 exit;
                         }
                     } else {
@@ -53,5 +53,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 }
 
-header("Location: login.php");
+header("Location: ../views/inloggen.php");
 exit;

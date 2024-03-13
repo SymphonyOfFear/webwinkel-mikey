@@ -73,7 +73,7 @@
 
 <body>
     <!-- This file lives in public/404.html -->
-    <img src="images/405.jpg" class="image">
+    <img src="../assets/images/405.jpg" class="image">
     <div>
         <div class="dialog">
             <h1>405 error</h1>
