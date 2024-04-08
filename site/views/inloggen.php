@@ -12,26 +12,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@200&family=Jost:wght@700&display=swap" rel="stylesheet">
 </head>
 
+<body>
+    <?php require_once("../partials/header.php"); ?>
 
-<?php include_once("../partials/header.php"); ?>
-
-<div class="login-container">
-    <h2>Inloggen</h2>
-    <form action="../controllers/verwerk-inloggen.php" method="post">
-        <div class="form-group">
-            <label for="email">E-mailadres:</label>
-            <input type="email" id="email" name="email" required>
+    <div class="login-container">
+        <h2>Inloggen</h2>
+        <form action="../controllers/verwerk-inloggen.php" method="post">
+            <div class="form-group">
+                <label for="email">E-mailadres:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="wachtwoord">Wachtwoord:</label>
+                <input type="password" id="wachtwoord" name="wachtwoord" required>
+            </div>
+            <button type="submit" name="submit" class="btn">Inloggen</button>
+        </form>
+        <div class="links">
+            <a href="#">Wachtwoord vergeten?</a>
+            <a href="registreren.php">Nog geen account? Registreer hier.</a>
         </div>
-        <div class="form-group">
-            <label for="wachtwoord">Wachtwoord:</label>
-            <input type="password" id="wachtwoord" name="wachtwoord" required>
-        </div>
-        <button type="submit" name="submit" class="btn">Inloggen</button>
-    </form>
-    <div class="links">
-        <a href="#">Wachtwoord vergeten?</a>
-        <a href="registreren.php">Nog geen account? Registreer hier.</a>
     </div>
-</div>
 
-<?php include_once("../partials/footer.php"); ?>
+    <?php require_once("../partials/footer.php"); ?>
+</body>
+
+</html>

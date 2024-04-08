@@ -8,5 +8,5 @@ session_unset();
 session_destroy();
 
 // Doorverwijzen naar de inlogpagina of een andere gewenste pagina
-header("Location: inloggen.php");
+header("Location: ../views/inloggen.php");
 exit;

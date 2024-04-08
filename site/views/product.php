@@ -1,30 +1,30 @@
 <?php
+session_start();
+require '../app/config/database.php';
 
-session_start(); // Start de sessie
-
-require '../app/config/database.php'; // Inclusief het bestand met databaseverbinding
-
-// Controleer of er een product-ID is opgegeven in de URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     echo "Product-ID ontbreekt.";
     exit;
 }
 
-// Haal het product op uit de database op basis van het opgegeven ID
 $product_id = $_GET['id'];
-$sql = "SELECT * FROM Producten WHERE id = ?";
+// Aangepast om categorie naam op te nemen
+$sql = "
+    SELECT p.*, c.categorie_naam 
+    FROM Producten p
+    INNER JOIN Categorieen c ON p.categorie_id = c.categorie_id 
+    WHERE p.product_id = ?
+";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam("i", $product_id);
+$stmt->bindParam(1, $product_id);
 $stmt->execute();
 
 $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Controleer of het product bestaat
 if (!$product) {
     echo "Product niet gevonden.";
     exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -41,15 +41,18 @@ if (!$product) {
     <link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@200&family=Jost:wght@700&display=swap" rel="stylesheet">
 </head>
 
-<?php include_once("../partials/header.php"); ?>
+<body><?php require_once("../partials/header.php"); ?>
 
-
-<div class="container">
-    <div class="product-details">
-        <h2><?php echo $product['naam']; ?></h2>
-        <img src="<?php echo isset($product['foto']) ? $product['foto'] : 'https://placehold.co/200' ?>" alt="<?php echo $product['naam'] ?>">
-        <p><?php echo $product['beschrijving']; ?></p>
-        <p>Prijs: &euro; <?php echo $product['prijs']; ?></p>
+    <div class="container">
+        <div class="product-details">
+            <h2><?php echo $product['naam']; ?></h2>
+            <img src="<?php echo isset($product['foto']) ? $product['foto'] : 'https://placehold.co/200' ?>" alt="<?php echo $product['naam'] ?>">
+            <p><?php echo $product['beschrijving']; ?></p>
+            <p>Prijs: &euro; <?php echo $product['prijs']; ?></p>
+        </div>
     </div>
-</div>
-<?php include_once("../partials/footer.php"); ?>
+
+    <?php require_once("../partials/footer.php"); ?>
+</body>
+
+</html>

@@ -3,15 +3,18 @@ session_start();
 require '../app/config/database.php';
 
 try {
-    // Query to fetch tools data
-    $stmt = $conn->prepare("SELECT * FROM Producten");
+    // Aangepast om categorie namen op te nemen
+    $stmt = $conn->prepare("
+        SELECT p.*, c.categorie_naam 
+        FROM Producten p
+        INNER JOIN Categorieen c ON p.categorie_id = c.categorie_id
+    ");
     $stmt->execute();
     $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-
-require '../partials/header.php';
+require "../partials/header.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

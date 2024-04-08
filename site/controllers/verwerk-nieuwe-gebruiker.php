@@ -8,49 +8,36 @@ if ($_SERVER['REQUEST_METHOD'] !== "POST") {
     exit;
 }
 
-// Controleer of de basisvelden zijn ingevuld
 if (!isset($_POST['email']) || !isset($_POST['wachtwoord'])) {
+    $_SESSION['message'] = 'E-mail en wachtwoord zijn vereist.';
     header("location: inloggen.php");
     exit;
 }
 
 $email = $_POST['email'];
 $wachtwoord = $_POST['wachtwoord'];
-$gebruikersnaam = isset($_POST['gebruikersnaam']) ? $_POST['gebruikersnaam'] : null;
-$rol = isset($_POST['rol']) ? $_POST['rol'] : 'klant'; // Standaard rol is 'klant'
+$gebruikersnaam = isset($_POST['gebruikersnaam']) ? $_POST['gebruikersnaam'] : '';
+$rol = isset($_POST['rol']) ? $_POST['rol'] : 'klant';
 
-// Wachtwoord hashen
 $hashed_wachtwoord = password_hash($wachtwoord, PASSWORD_DEFAULT);
 
 try {
-    // Bereid de SQL-query voor om een nieuwe gebruiker toe te voegen
-    $stmt = $conn->prepare("INSERT INTO Gebruikers (email, wachtwoord, gebruikersnaam, rol) VALUES (?, ?, ?, ?)");
+    // Voeg de wachtwoord kolom correct in de INSERT INTO statement
+    $stmt = $conn->prepare("INSERT INTO Gebruikers (email, wachtwoord, gebruikersnaam, rol_id) VALUES (?, ?, ?, (SELECT rol_id FROM Rollen WHERE rol_naam = ?))");
+    // Voer de query uit met de voorbereide statement en de opgegeven parameters
     $stmt->execute([$email, $hashed_wachtwoord, $gebruikersnaam, $rol]);
 
-    // Controleer of de actie vanuit de dashboard komt
-    if (isset($_POST['from_dashboard']) && $_POST['from_dashboard'] == 'true') {
-        // Actie komt van het dashboard, redirect naar admin-dashboard
-        header("location: admin-dashboard.php");
-    } else {
-        // Actie komt van registratieformulier, start sessie en redirect
-        $_SESSION['isIngelogd'] = true;
-        $_SESSION['gebruikersnaam'] = $gebruikersnaam;
-        $_SESSION['rol'] = $rol;
+    // Sessie variabelen instellen
+    $_SESSION['isIngelogd'] = true;
+    $_SESSION['gebruikersnaam'] = $gebruikersnaam;
+    $_SESSION['rol'] = $rol;
 
-        // Redirect op basis van rol
-        switch ($rol) {
-            case 'admin':
-                header("location: admin-dashboard.php");
-                break;
-            case 'beheerder':
-                header("location: admin-dashboard.php");
-                break;
-            case 'klant':
-            default:
-                header("location: index.php");
-                break;
-        }
+    if ($_SESSION['rol'] != "klant") {
+        header("Location: ../views/" . $rol . "-dashboard.php");
     }
+
+    exit;
 } catch (PDOException $e) {
+    // Foutafhandeling: toon de foutmelding
     echo "Fout bij het toevoegen van gebruiker: " . $e->getMessage();
 }
